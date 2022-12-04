@@ -39,9 +39,31 @@ int comparesize(int a, int b)
 	else
 	{
 		printf("They are equal\n");
-	}
-	
+	}	
 }
+
+int BTHeight(NODE root)
+{
+	if(root == NULL)
+	{
+		return 0;
+	}
+	else
+	{
+		int rightheight = BTHeight(root->right);
+		int leftheight = BTHeight(root->left);
+		if (leftheight >= rightheight)
+		{
+			return leftheight +1 ;
+		}
+		else
+		{
+			return rightheight +1;
+		}
+	}
+
+}
+
 
 NODE bst_init_node(int key, void *data){
 	NODE n = (NODE)malloc(sizeof(NODE_t));
