@@ -177,7 +177,6 @@ void insert(BST tree, int key, void *data){
 	}
 }
 
-
 void delete(BST tree, int key, void *data){
 	if(tree != NULL){
 		NODE parent, node;
@@ -254,9 +253,14 @@ BST bst_init(){
 	return t1;
 }
 
-void bst_free(BST t){
-	//Tentative
-	free(t);
+void inorder(NODE node)
+{
+	if(node != NULL)
+	{
+		inorder(node->left);
+		free(node);
+		inorder(node->right);
+	}
 }
 
 
