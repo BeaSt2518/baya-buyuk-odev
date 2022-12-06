@@ -91,7 +91,8 @@ NODE leftRotation(NODE gp, NODE p , NODE c)
 {
 	p->right = c->left;
 	c->left = p;
-	gp->left = c;
+	gp->right = c;
+	p = c;
 	//update height
 	p->height = comparesize(BTHeight(p->left), BTHeight(p->right)) +1;
 	c->height = comparesize(BTHeight(c->left), BTHeight(c->right)) +1;
@@ -104,7 +105,8 @@ NODE rightRotation(NODE gp, NODE p , NODE c)
 {
 	p->left = c->right;
 	c->right = p;
-	gp->right = c;
+	gp->left = c;
+	p = c;
 	//update height
 	p->height = comparesize(BTHeight(p->left), BTHeight(p->right)) +1;
 	c->height = comparesize(BTHeight(c->left), BTHeight(c->right)) +1;
