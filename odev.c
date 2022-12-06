@@ -39,7 +39,7 @@ int comparesize(int a, int b)
 	}
 	else
 	{
-		printf("They are equal\n");
+		//printf("They are equal\n");
 	}	
 }
 
@@ -53,7 +53,7 @@ int BTHeight(NODE root)
 	{
 		int rightheight = BTHeight(root->right);
 		int leftheight = BTHeight(root->left);
-		if (leftheight >= rightheight)
+		if (leftheight > rightheight)
 		{
 			return leftheight +1 ;
 		}
@@ -263,18 +263,18 @@ void bst_free(BST t){
 int main() {
 	BST t1 = bst_init();
 
-	insert(t1, 52, NULL);
-	insert(t1, 13, NULL);
-	insert(t1, 18, NULL);
-	insert(t1, 32, NULL);
-	insert(t1, 78, NULL);
-	insert(t1, 45, NULL);
-	insert(t1, 67, NULL);
-	insert(t1, 28, NULL);
-	insert(t1, 72, NULL);
-	insert(t1, 32, NULL);
-	insert(t1, 99, NULL);
+	insert(t1, 1, NULL);
+	insert(t1, 2, NULL);
 	insert(t1, 3, NULL);
+	insert(t1, 4, NULL);
+	insert(t1, 5, NULL);
+	insert(t1, 6, NULL);
+	insert(t1, 7, NULL);
+	insert(t1, 8, NULL);
+	insert(t1, 9, NULL);
+	insert(t1, 10, NULL);
+	insert(t1, 11, NULL);
+	insert(t1, 12, NULL);
 
 	print(t1->root,0);
 
