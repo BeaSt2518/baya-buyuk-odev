@@ -248,7 +248,6 @@ void delete(BST tree, int key, void *data){
 	}
 }
 
-
 BST bst_init(){
 	BST t1 = (BST)malloc(sizeof(BST_t));
 	t1->root = NULL;
