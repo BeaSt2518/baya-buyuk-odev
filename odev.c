@@ -26,6 +26,7 @@ void print(NODE n, int h){
 	}
 }
 
+//I think this will be unused
 int comparesize(int a, int b)
 {
 	if(a > b)
@@ -90,68 +91,30 @@ NODE bst_init_node(int key, void *data){
 	return n;
 }
 
-void leftRotation(NODE gp, NODE p , NODE c)
+NODE leftRotation(NODE gp, NODE p , NODE c)
 {
-    NODE temp = c->left;
-    c->left = p;
-    p->right = temp;
-    gp->right = c;
-	//update the height again
-
-}
-
-void rightRotation(NODE gp, NODE p , NODE c)
-{
-	NODE temp = c->right;
-	c->right = p;
-	p->left = temp;
+	p->right = c->left;
+	c->left = p;
 	gp->left = c;
-	//update the height again
+	//update height
+	p->height = comparesize(BTHeight(p->left), BTHeight(p->right)) +1;
 
+	//return new root
+	return c;
 }
 
+NODE rightRotation(NODE gp, NODE p , NODE c)
+{
+	p->left = c->right;
+	c->right = p;
+	gp->right = c;
+	//update height
+	p->height = comparesize(BTHeight(p->left), BTHeight(p->right)) +1;
 
-
-//void insert_rec(NODE, int, void *);
-
-/*
-void insert_rec(NODE curr, int key, void *data){
-	if(key < curr->key){
-		if(curr->left != NULL){
-			insert_rec(curr->left, key, data);
-		}
-		else{
-			curr->left = bst_init_node(key, data);
-		}
-	}
-	else if(key > curr->key){
-		if(curr->right != NULL){
-			insert_rec(curr->right, key, data);
-		}
-		else{
-			curr->right = bst_init_node(key, data);
-		}
-	}
-	else {
-		printf("ERROR: Duplicate key: %d. Ignoring...\n\n", key);
-		curr = NULL;
-	}
+	//return new root
+	return c;
 }
 
-void insert(BST tree, int key, void *data){
-	if(tree != NULL){
-		if(tree->root != NULL){
-			insert_rec(tree->root, key, data);
-		}
-		else{
-			tree->root = bst_init_node(key, data);
-		}
-	}
-	else{
-		printf("Invalid tree.\n");
-	}
-}
-*/
 
 NODE insert_rec(NODE curr, int key, void *data){
 	if(curr == NULL){
@@ -167,6 +130,35 @@ NODE insert_rec(NODE curr, int key, void *data){
 		else {
 			printf("ERROR: Duplicate key: %d. Ignoring...\n\n", key);
 		}
+	}
+	//update height of the current node
+	curr->height = comparesize(BTHeight(curr->left), BTHeight(curr->right)) + 1;
+
+	//get the balance factor of the current node 
+	int bf = balance(curr);
+
+	//If the tree becomes unbalanced, there are 4 cases
+	//left left case
+	if(bf > 1 && key < curr->left->key)
+	{
+		return rightRotation(curr, curr->left, curr->left->left);
+	}
+	//right right case	
+	if(bf < -1 && key > curr->right->key)
+	{
+		return leftRotation(curr, curr->right, curr->right->right);
+	}
+	//left right case
+	if(bf > 1 && key > curr->left->key)
+	{
+		curr->left = leftRotation(curr, curr->left, curr->left->right);
+		return rightRotation(curr, curr->left, curr->left->left);
+	}
+	//right left case
+	if(bf < -1 && key < curr->right->key)
+	{
+		curr->right = rightRotation(curr, curr->right, curr->right->left);
+		return leftRotation(curr, curr->right, curr->right->right);
 	}
 	return curr;
 }
@@ -291,9 +283,4 @@ int main() {
 
 	return 0;
 }
-
-
-
-
-
 
