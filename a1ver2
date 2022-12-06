@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct NODE_s *NODE;
+typedef struct NODE_s{
+	NODE left;
+	NODE right;
+	int key;
+	void *data;
+	int height;
+} NODE_t[1];
+
+int heightcheck(NODE node){
+    if (node == 0)
+    {
+        return node->height;
+    } 
+}
+
+int max(int a, int b)
+{
+    return (a > b)? a : b;
+}
+
+NODE rightRotation(NODE gp, NODE p , NODE c)
+{
+	p->left = c->right;
+	c->right = p;
+	gp->right = c;
+	//update height
+	p->height = comparesize(BTHeight(p->left), BTHeight(p->right)) +1;
+	c->height = comparesize(BTHeight(c->left), BTHeight(c->right)) +1;
+
+	//return new root
+	return c;
+}
+
+
+NODE bst_init_node(int key, void *data){
+	NODE n = (NODE)malloc(sizeof(NODE_t));
+	n->left = NULL;
+	n->right = NULL;
+	n->key = key;
+	n->data = data;
+	n->height = 1;
+	return n;
+}
