@@ -26,7 +26,7 @@ void print(NODE n, int h){
 	}
 }
 
-//I think this will be unused
+//I think this will be unused edit: it is used
 int comparesize(int a, int b)
 {
 	if(a > b)
@@ -98,6 +98,7 @@ NODE leftRotation(NODE gp, NODE p , NODE c)
 	gp->left = c;
 	//update height
 	p->height = comparesize(BTHeight(p->left), BTHeight(p->right)) +1;
+	c->height = comparesize(BTHeight(c->left), BTHeight(c->right)) +1;
 
 	//return new root
 	return c;
@@ -110,6 +111,7 @@ NODE rightRotation(NODE gp, NODE p , NODE c)
 	gp->right = c;
 	//update height
 	p->height = comparesize(BTHeight(p->left), BTHeight(p->right)) +1;
+	c->height = comparesize(BTHeight(c->left), BTHeight(c->right)) +1;
 
 	//return new root
 	return c;
@@ -253,14 +255,9 @@ BST bst_init(){
 	return t1;
 }
 
-void inorder(NODE node)
-{
-	if(node != NULL)
-	{
-		inorder(node->left);
-		free(node);
-		inorder(node->right);
-	}
+void bst_free(BST t){
+	//Tentative
+	free(t);
 }
 
 
@@ -282,7 +279,7 @@ int main() {
 
 	print(t1->root,0);
 
-	bst_free(t1);
+	free(t1);
 
 
 	return 0;
