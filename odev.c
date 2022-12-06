@@ -61,8 +61,23 @@ int BTHeight(NODE root)
 			return rightheight +1;
 		}
 	}
-
 }
+
+int balance(NODE root)
+{
+	if(root == NULL)
+	{
+		return 0;
+	}
+	else
+	{
+		int rightheight = BTHeight(root->right);
+		int leftheight = BTHeight(root->left);
+		//positive means left heavy and negative means right heavy
+		return leftheight - rightheight;
+	}
+}
+
 
 
 NODE bst_init_node(int key, void *data){
@@ -74,6 +89,28 @@ NODE bst_init_node(int key, void *data){
 	n->height = 1;
 	return n;
 }
+
+void leftRotation(NODE gp, NODE p , NODE c)
+{
+    NODE temp = c->left;
+    c->left = p;
+    p->right = temp;
+    gp->right = c;
+	//update the height again
+
+}
+
+void rightRotation(NODE gp, NODE p , NODE c)
+{
+	NODE temp = c->right;
+	c->right = p;
+	p->left = temp;
+	gp->left = c;
+	//update the height again
+
+}
+
+
 
 //void insert_rec(NODE, int, void *);
 
