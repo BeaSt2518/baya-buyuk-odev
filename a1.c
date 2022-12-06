@@ -29,7 +29,7 @@ void print(NODE n, int h){
 //I think this will be unused edit: it is used
 int comparesize(int a, int b)
 {
-	if(a > b)
+	if(a >= b)
 	{
 		return a;
 	}
@@ -37,10 +37,6 @@ int comparesize(int a, int b)
 	{
 		return b;
 	}
-	else
-	{
-		//printf("They are equal\n");
-	}	
 }
 
 int BTHeight(NODE root)
