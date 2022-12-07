@@ -1,125 +1,130 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct LINKED_LIST_NODE_s *LINKED_LIST_NODE;
+
+typedef struct LINKED_LIST_NODE_s{
+
+	LINKED_LIST_NODE next; /* Do not change order */
+
+	void *data;
+
+} LINKED_LIST_NODE_t[1];
+
+typedef struct LINKED_LIST_s *LINKED_LIST;
+
+typedef struct LINKED_LIST_s{
+
+  	LINKED_LIST_NODE head; /* May overlap with next. */
+
+} LINKED_LIST_t[1], *LINKED_LIST;
 
 
-
-int s[100], j, res[100]; /*GLOBAL VARIABLES */
-
-
-void AdjacencyMatrix(int a[][100], int n) {
-
-    int i, j;
-
-    for (i = 0; i < n; i++) {
-
-        for (j = 0; j <= n; j++) {
-
-            a[i][j] = 0;
-
-        }
-
+//function to append a node to the end of the list
+void append(LINKED_LIST list, void *data)
+{
+    LINKED_LIST_NODE newnode = malloc(sizeof(LINKED_LIST_NODE_t));
+    newnode->data = data;
+    newnode->next = NULL;
+    LINKED_LIST_NODE current = list->head;
+    if(current == NULL)
+    {
+        list->head = newnode;
     }
-
-    for (i = 1; i < n; i++) {
-
-        for (j = 0; j < i; j++) {
-
-            a[i][j] = rand() % 2;
-
-            a[j][i] = 0;
-
+    else
+    {
+        while(current->next != NULL)
+        {
+            current = current->next;
         }
-
+        current->next = newnode;
     }
-
 }
 
-void dfs(int u, int n, int a[][100]) { /* DFS */
-
-    int v;
-
-    s[u] = 1;
-
-    for (v = 0; v < n - 1; v++) {
-
-        if (a[u][v] == 1 && s[v] == 0) {
-
-            dfs(v, n, a);
-
-        }
-
+//funciton ot print the list
+void printlist(LINKED_LIST list)
+{
+    LINKED_LIST_NODE current = list->head;
+    while(current != NULL)
+    {
+        printf("%d ", *(int*)current->data);
+        current = current->next;
     }
-
-    j += 1;
-
-    res[j] = u;
-
 }
 
-void topological_order(int n, int a[][100]) { /* TO FIND TOPOLOGICAL ORDER*/
-
-
-    int i, u;
-
-    for (i = 0; i < n; i++) {
-
-        s[i] = 0;
-
+//topological sort function
+void topologicalsort(LINKED_LIST list, int **matrix, int size)
+{
+    
+    //why are we taking the matrix as a pointer to a pointer?
+    //
+    int i;
+    int j;
+    int *indegree = malloc(sizeof(int)*size);
+    for(i = 0; i < size; i++)
+    {
+        indegree[i] = 0;
     }
-
-    j = 0;
-
-    for (u = 0; u < n; u++) {
-
-        if (s[u] == 0) {
-
-            dfs(u, n, a);
-
+    for(i = 0; i < size; i++)
+    {
+        for(j = 0; j < size; j++)
+        {
+            if(matrix[i][j] == 1)
+            {
+                indegree[j]++;
+            }
         }
-
     }
-
-    return;
-
+    for(i = 0; i < size; i++)
+    {
+        if(indegree[i] == 0)
+        {
+            append(list, &i);
+        }
+    }
+    while(list->head != NULL)
+    {
+        int *current = list->head->data;
+        printf("%d ", *current);
+        list->head = list->head->next;
+        for(i = 0; i < size; i++)
+        {
+            if(matrix[*current][i] == 1)
+            {
+                indegree[i]--;
+                if(indegree[i] == 0)
+                {
+                    append(list, &i);
+                }
+            }
+        }
+    }
 }
 
-int main() {
+//linked list init function
+LINKED_LIST initlist()
+{
+    LINKED_LIST list = malloc(sizeof(LINKED_LIST_t));
+    list->head = NULL;
+    return list;
+}
 
-    int a[100][100], n, i, j;
-    srand(time(NULL));
+int main(){
 
 
-    printf("Enter number of vertices\n"); /* READ NUMBER OF VERTICES */
+    LINKED_LIST list = malloc(sizeof(LINKED_LIST_t));
+    list = initlist();
 
-    scanf("%d", &n);
+    int matrix[5][5] = {{0,1,0,0,1},
+                        {0,0,1,0,0},
+                        {0,0,0,0,0},
+                        {0,0,0,1,0},
+                        {0,1,0,0,0}};
 
-    AdjacencyMatrix(a, n); /*GENERATE ADJACENCY MATRIX */
+    topologicalsort(list, matrix, 5);
+    printlist(list);
 
-    printf("\t\tAdjacency Matrix of the graph\n"); /* PRINT ADJACENCY MATRIX */
 
-    for (i = 0; i < n; i++) {
-
-        for (j = 0; j < n; j++) {
-
-            printf("\t%d", a[i][j]);
-
-        }
-
-        printf("\n");
-
-    }
-
-    printf("\nTopological order:\n");
-
-    topological_order(n, a);
-
-    for (i = n; i >= 1; i--) {
-
-        printf("-->%d", res[i]);
-
-    }
 
     return 0;
-
 }
