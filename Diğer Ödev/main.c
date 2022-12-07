@@ -53,7 +53,7 @@ void printlist(LINKED_LIST list)
 }
 
 //topological sort function
-void topologicalsort(LINKED_LIST list, int **matrix, int size)
+void topologicalsort(LINKED_LIST list, int matrix[5][5], int size)
 {
     
     //why are we taking the matrix as a pointer to a pointer?
@@ -115,11 +115,11 @@ int main(){
     LINKED_LIST list = malloc(sizeof(LINKED_LIST_t));
     list = initlist();
 
-    int matrix[5][5] = {{0,1,0,0,1},
-                        {0,0,1,0,0},
-                        {0,0,0,0,0},
+    int matrix[5][5] = {{0,1,1,0,0},
+                        {0,0,0,1,1},
                         {0,0,0,1,0},
-                        {0,1,0,0,0}};
+                        {0,0,1,0,1},
+                        {0,1,0,1,0}};
 
     topologicalsort(list, matrix, 5);
     printlist(list);
