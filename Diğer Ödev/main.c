@@ -1,13 +1,13 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
+
+
 
 int s[100], j, res[100]; /*GLOBAL VARIABLES */
 
- 
 
-void AdjacencyMatrix(int a[][100], int n) { //To generate adjacency matrix for given nodes
-
- 
+void AdjacencyMatrix(int a[][100], int n) {
 
     int i, j;
 
@@ -35,11 +35,7 @@ void AdjacencyMatrix(int a[][100], int n) { //To generate adjacency matrix for g
 
 }
 
- 
-
 void dfs(int u, int n, int a[][100]) { /* DFS */
-
- 
 
     int v;
 
@@ -61,11 +57,8 @@ void dfs(int u, int n, int a[][100]) { /* DFS */
 
 }
 
- 
-
 void topological_order(int n, int a[][100]) { /* TO FIND TOPOLOGICAL ORDER*/
 
- 
 
     int i, u;
 
@@ -94,18 +87,14 @@ void topological_order(int n, int a[][100]) { /* TO FIND TOPOLOGICAL ORDER*/
 int main() {
 
     int a[100][100], n, i, j;
+    srand(time(NULL));
 
- 
 
     printf("Enter number of vertices\n"); /* READ NUMBER OF VERTICES */
 
     scanf("%d", &n);
 
- 
-
     AdjacencyMatrix(a, n); /*GENERATE ADJACENCY MATRIX */
-
- 
 
     printf("\t\tAdjacency Matrix of the graph\n"); /* PRINT ADJACENCY MATRIX */
 
@@ -123,11 +112,7 @@ int main() {
 
     printf("\nTopological order:\n");
 
- 
-
     topological_order(n, a);
-
- 
 
     for (i = n; i >= 1; i--) {
 
