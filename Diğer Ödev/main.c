@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define SIZE 5
+
 typedef struct LINKED_LIST_NODE_s *LINKED_LIST_NODE;
 
 typedef struct LINKED_LIST_NODE_s{
 
 	LINKED_LIST_NODE next; /* Do not change order */
 
-	void *data;
+	int data;
 
 } LINKED_LIST_NODE_t[1];
 
@@ -21,7 +23,7 @@ typedef struct LINKED_LIST_s{
 
 
 //function to append a node to the end of the list
-void append(LINKED_LIST list, void *data)
+void append(LINKED_LIST list, int data)
 {
     LINKED_LIST_NODE newnode = malloc(sizeof(LINKED_LIST_NODE_t));
     newnode->data = data;
@@ -47,13 +49,13 @@ void printlist(LINKED_LIST list)
     LINKED_LIST_NODE current = list->head;
     while(current != NULL)
     {
-        printf("%d ", *(int*)current->data);
+        printf("%d ", current->data);
         current = current->next;
     }
 }
 
 //topological sort function
-void topologicalsort(LINKED_LIST list, int matrix[5][5], int size)
+void topologicalsort(LINKED_LIST list, int matrix[8][8], int size)
 {
 
     int i;
@@ -77,23 +79,23 @@ void topologicalsort(LINKED_LIST list, int matrix[5][5], int size)
     {
         if(indegree[i] == 0)
         {
-            append(list, &i);
+            append(list, i);
             //printlist(list);
         }
     }
     while(list->head != NULL)
     {
-        int *current = list->head->data;
-        printf("%d ", *current);
+        int current = list->head->data;
+        printf("%d ", current);
         list->head = list->head->next;
         for(i = 0; i < size; i++)
         {
-            if(matrix[*current][i] == 1)
+            if(matrix[current][i] == 1)
             {
                 indegree[i]--;
                 if(indegree[i] == 0)
                 {
-                    append(list, &i);
+                    append(list, i);
                 }
             }
         }
@@ -110,17 +112,34 @@ LINKED_LIST initlist()
 
 void main(){
 
+    //The thing is that vertex 1 is actually vertex zero and I coded that way. So the list is actually 0 1 2 3 4
+
 
     LINKED_LIST list = malloc(sizeof(LINKED_LIST_t));
+    LINKED_LIST list2 = malloc(sizeof(LINKED_LIST_t));
     list = initlist();
+                                //   1 2 3 4 5
+    int matrix[SIZE][SIZE] = {      {0,1,1,0,0}, //1
+                                    {0,0,0,1,1}, //2
+                                    {0,0,0,0,0}, //3
+                                    {0,0,0,0,0}, //4
+                                    {0,0,0,0,0}};//5
 
-    int matrix[5][5] = {{0,0,0,0,0},
-                        {0,0,0,1,1},
-                        {0,0,0,1,0},
-                        {0,0,1,0,1},
-                        {0,0,0,0,0}};
+                           //1 2 3 4 5 6 7 8
+    int matrix2[8][8] = {   {0,0,0,1,0,0,0,0}, //1
+                            {0,0,0,1,1,0,0,0}, //2
+                            {0,0,0,0,1,0,0,1}, //3
+                            {0,0,0,0,0,1,1,1}, //4
+                            {0,0,0,0,0,0,1,0}, //5
+                            {0,0,0,0,0,0,0,0}, //6
+                            {0,0,0,0,0,0,0,0}, //7
+                            {0,0,0,0,0,0,0,0}};//8
+    
+    
 
-    topologicalsort(list, matrix, 5);
-    printlist(list);
+    //topologicalsort(list, matrix, SIZE);
+    topologicalsort(list2, matrix2, 8);
+    //printlist(list);
+    printlist(list2);
 
 }
