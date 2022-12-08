@@ -41,7 +41,7 @@ void append(LINKED_LIST list, void *data)
     }
 }
 
-//funciton ot print the list
+//funciton to print the list
 void printlist(LINKED_LIST list)
 {
     LINKED_LIST_NODE current = list->head;
@@ -55,9 +55,7 @@ void printlist(LINKED_LIST list)
 //topological sort function
 void topologicalsort(LINKED_LIST list, int matrix[5][5], int size)
 {
-    
-    //why are we taking the matrix as a pointer to a pointer?
-    //
+
     int i;
     int j;
     int *indegree = malloc(sizeof(int)*size);
@@ -80,6 +78,7 @@ void topologicalsort(LINKED_LIST list, int matrix[5][5], int size)
         if(indegree[i] == 0)
         {
             append(list, &i);
+            //printlist(list);
         }
     }
     while(list->head != NULL)
@@ -109,22 +108,19 @@ LINKED_LIST initlist()
     return list;
 }
 
-int main(){
+void main(){
 
 
     LINKED_LIST list = malloc(sizeof(LINKED_LIST_t));
     list = initlist();
 
-    int matrix[5][5] = {{0,1,1,0,0},
+    int matrix[5][5] = {{0,0,0,0,0},
                         {0,0,0,1,1},
                         {0,0,0,1,0},
                         {0,0,1,0,1},
-                        {0,1,0,1,0}};
+                        {0,0,0,0,0}};
 
     topologicalsort(list, matrix, 5);
     printlist(list);
 
-
-
-    return 0;
 }
