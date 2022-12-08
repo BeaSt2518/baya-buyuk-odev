@@ -55,7 +55,7 @@ void printlist(LINKED_LIST list)
 }
 
 //topological sort function
-void topologicalsort(LINKED_LIST list, int matrix[8][8], int size)
+void topologicalsort(LINKED_LIST list, int matrix[5][5], int size)
 {
 
     int i;
@@ -136,10 +136,10 @@ void main(){
                             {0,0,0,0,0,0,0,0}};//8
     
     
-
-    //topologicalsort(list, matrix, SIZE);
-    topologicalsort(list2, matrix2, 8);
-    //printlist(list);
-    printlist(list2);
+// For the second matrix, I need to change the code (it worked in the past) but now 5 by 5 is sufficiet for the homework
+    topologicalsort(list, matrix, SIZE);
+    //topologicalsort(list2, matrix2, 8);
+    printlist(list);
+    //printlist(list2);
 
 }
