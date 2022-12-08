@@ -126,6 +126,49 @@ int balance_checker(NODE node) {
     
 }
 
+NODE avl_helper(NODE node, int balance, int key) {
+      //left left case
+    if (balance > 1 && key < node->left->key) {
+        return right_rotation(node);
+    }
+    //right right case
+    if (balance < -1 && key > node->right->key) {
+        return left_rotation(node);
+    }
+    //left right case
+    if (balance > 1 && key > node->left->key) {
+        node->left = left_rotation(node->left);
+        return right_rotation(node);
+    }
+    //right left case
+    if (balance < -1 && key < node->right->key) {
+        node->right = right_rotation(node->right);
+        return left_rotation(node);
+    }
+    
+    return node;
+}
+
+NODE search(TREE tree, int key) {
+   	if(tree != NULL){
+		NODE parent, node;
+
+		parent = (NODE)tree;
+		node = tree->root;
+		while((node != NULL) && (key != node->key)){
+			if(key < node->key){
+				parent = node;
+				node = node->left;
+			}
+			else if(key > node->key){
+				parent = node;
+				node = node->right;
+			}
+		}
+    
+    }
+}
+
 NODE insert(NODE node, int key) {
     int balance;
     
@@ -169,7 +212,7 @@ NODE insert(NODE node, int key) {
     return node;
 }
 
-void delete(TREE tree, int key){
+NODE delete(TREE tree, int key){
 	if(tree != NULL){
 		NODE parent, node;
 
@@ -185,8 +228,6 @@ void delete(TREE tree, int key){
 				node = node->right;
 			}
 		}
-
-        
 
 		if(node == NULL){
 			printf("Node not found.\n");
@@ -232,6 +273,12 @@ void delete(TREE tree, int key){
 			}
 			free(node);
 		}
+        //update height of node
+        node->height = 1 + max(checkheihgt(node->left), checkheihgt(node->right));
+        //check balance of node
+        int balance = balance_checker(node);
+
+        //avl_helper(node, balance, key);
 
 	}
 	else{
@@ -256,7 +303,10 @@ int main() {
     tree->root = insert(tree->root, 9);
     tree->root = insert(tree->root, 8);
     tree->root = insert(tree->root, 10);
-    delete(tree, 9);
-    print(tree->root, 0);
+    //int searcehd = search(tree->root, 9);
+    //printf("searched: %d\n", searcehd);
+
+    //delete(tree, 9);
+    //print(tree->root, 0);
     return 0;
 }

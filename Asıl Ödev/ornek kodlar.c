@@ -108,6 +108,7 @@ void insert(BST tree, int key, void *data){
 }
 
 
+
 void delete(BST tree, int key, void *data){
 	if(tree != NULL){
 		NODE parent, node;
