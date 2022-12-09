@@ -307,6 +307,6 @@ int main() {
     //printf("searched: %d\n", searcehd);
 
     //delete(tree, 9);
-    //print(tree->root, 0);
+    print(tree->root, 0);
     return 0;
 }
