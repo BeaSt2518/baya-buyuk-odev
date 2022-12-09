@@ -27,14 +27,14 @@ NODE node_init(int key) {
     return node;
 }
 
-
+//a function to initiliaze the tree
 TREE tree_init() {
     TREE tree = (TREE)malloc(sizeof(TREE_t));
     tree->root = NULL;
     return tree;
 }
 
-
+//somewhat didn't work but I am trying to work it out
 int BTHeight(NODE root)
 {
 	if(root == NULL)
@@ -86,6 +86,7 @@ NODE right_rotation(NODE node) {
     temp->right = node;
     node->left = temp2;
     
+    //update heihgts
     node->height = 1 + max(checkheihgt(node->left), checkheihgt(node->right));
     temp->height = 1 + max(checkheihgt(temp->left), checkheihgt(temp->right));
 
@@ -273,9 +274,9 @@ NODE delete(TREE tree, int key){
 			}
 			free(node);
 		}
-        
+        //update height of node
         node->height = 1 + max(checkheihgt(node->left), checkheihgt(node->right));
-       
+        //check balance of node
         int balance = balance_checker(node);
 
         avl_helper(node, balance, key);
